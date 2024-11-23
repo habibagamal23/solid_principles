@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../api_consumer.dart';
-
+// open closed  + single responspilty
 class DioService implements ApiConsumer {
   final Dio _dio;
 

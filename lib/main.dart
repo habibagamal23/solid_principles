@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solid_p/features/cart/logic/weather_cubit.dart';
 import 'core/di/di.dart';
-import 'features/cart/ui/screens/weather.dart';
+
+import 'features/getwather/logic/weather_cubit.dart';
+import 'features/getwather/ui/screens/weather.dart';
 
 void main() {
   setGetIt();

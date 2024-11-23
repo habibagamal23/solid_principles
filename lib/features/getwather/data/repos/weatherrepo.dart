@@ -1,7 +1,7 @@
-import 'package:solid_p/features/cart/data/models/weather.dart';
 
 import '../../../../core/network/api_result.dart';
-
+import '../models/weather.dart';
+// open closed and
 abstract class WeatherRepository {
   Future<ApiResult<WeatherModel>> getWeather(String city);
 }

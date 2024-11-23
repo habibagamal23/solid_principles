@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solid_p/features/cart/logic/weather_cubit.dart';
-import 'package:solid_p/features/cart/ui/widgets/WeatherDetails.dart';
 
+import '../../logic/weather_cubit.dart';
+import '../widgets/WeatherDetails.dart';
 import '../widgets/error_widget.dart';
 import '../widgets/inital_widget.dart';
 

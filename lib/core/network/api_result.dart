@@ -1,3 +1,4 @@
+// sigle responsplity
 class ApiResult<T> {
   final T? data;
   final String? error;

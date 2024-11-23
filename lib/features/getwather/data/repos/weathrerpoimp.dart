@@ -3,7 +3,7 @@ import '../../../../core/network/end_points.dart';
 import '../../../../core/network/api_result.dart';
 import '../models/weather.dart';
 import 'weatherrepo.dart';
-
+// di , open closed , liksove , signle
 class WeatherRepositoryImpl extends WeatherRepository {
   final ApiConsumer apiConsumer;
 
@@ -13,7 +13,8 @@ class WeatherRepositoryImpl extends WeatherRepository {
   Future<ApiResult<WeatherModel>> getWeather(String city) async {
     try {
       final response =
-          await apiConsumer.get(ApiConstnt.URLWeather, queryParameters: {
+          await apiConsumer.get(ApiConstnt.URLWeather,
+              queryParameters: {
         'q': city,
         'key': ApiConstnt.API_KEY,
       });
