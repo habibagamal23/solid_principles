@@ -3,10 +3,11 @@ class ErrorModel {
   final String errorMessage;
 
   ErrorModel({required this.status, required this.errorMessage});
-  factory ErrorModel.fromJson(Map jsonData) {
+
+  factory ErrorModel.fromJson(Map<String, dynamic> jsonData) {
     return ErrorModel(
-      errorMessage: jsonData["Message"],
-      status: jsonData["status"],
+      errorMessage: jsonData["Message"] ?? "Unknown error occurred",
+      status: jsonData["status"] ?? 500,
     );
   }
 }

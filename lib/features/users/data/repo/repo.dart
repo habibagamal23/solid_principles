@@ -1,7 +1,10 @@
 
+import 'package:dartz/dartz.dart';
 import 'package:solid_p/features/users/data/models/user_model.dart';
 
 import '../../../../core/connection/NetworkInfo.dart';
+import '../../../../core/error/expentions.dart';
+import '../../../../core/error/feliuier.dart';
 import '../../../../core/network/ApiResult.dart';
 import '../../domain/entity/user_entity.dart';
 import '../../domain/repositories/userrepo.dart';
@@ -20,21 +23,22 @@ class UserRepositoryImpl extends UserRepository {
   });
 
   @override
-  Future<ApiResult<UserEntity>> getUser({required String id}) async {
+  Future<Either<Failure, UserEntity>> getUser({required String id}) async {
     if (await networkInfo.isConnected!) {
       try {
         final remoteUser = await remoteDataSource.getUser(id);
         localDataSource.cacheUser(remoteUser);
-        return ApiResult.success(remoteUser);
-      } catch (e) {
-        return ApiResult.error("Failed to fetch user data");
+        return Right(remoteUser);
+      } on ServerException catch (e) {
+        return Left(Failure(errMessage: e.errorModel.errorMessage));
       }
-    } else {
+    }
+    else {
       try {
         final localUser = await localDataSource.getLastUser();
-        return ApiResult.success(localUser);
-      } catch (e) {
-        return ApiResult.error("No Internet Connection");
+        return Right(localUser);
+      } on CacheExeption catch (e) {
+        return Left(Failure(errMessage: e.errorMessage));
       }
     }
   }

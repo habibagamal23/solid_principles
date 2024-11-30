@@ -20,10 +20,9 @@ class UserCubit extends Cubit<UserState> {
   getUserFun(int id) async {
     emit(GetUserLoading());
     final result = await getUser.call(id: id.toString());
-    if (result.isSuccess) {
-      emit(GetUserSuccessfully(user: result.data!));
-    } else {
-      emit(GetUserFailure(errMessage: result.error!));
-    }
+    result.fold(
+      (failure) => emit(GetUserFailure(errMessage: failure.errMessage)),
+      (user) => emit(GetUserSuccessfully(user: user)),
+    );
   }
 }

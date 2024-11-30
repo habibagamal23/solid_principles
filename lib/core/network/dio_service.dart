@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:solid_p/core/network/Api_constant.dart';
 import 'package:solid_p/core/network/apiConsumer.dart';
 
+import '../error/expentions.dart';
 import 'api_error.dart';
 
 class DioService implements ApiConsumer {
@@ -15,7 +16,7 @@ class DioService implements ApiConsumer {
       final response = await dio.get(url, queryParameters: querParmeter);
       return response.data;
     } on DioException catch (e) {
-      ApiError.fromDioError(e);
+      handleDioException(e);
     }
   }
 
@@ -27,7 +28,7 @@ class DioService implements ApiConsumer {
           await dio.post(url, data: data, queryParameters: querParmeter);
       return res.data;
     } on DioException catch (e) {
-      ApiError.fromDioError(e);
+      handleDioException(e);
     }
   }
 }

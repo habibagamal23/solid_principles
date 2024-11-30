@@ -8,12 +8,8 @@ class UserRemoteDataSource {
 
   UserRemoteDataSource({required this.api});
   Future<UserModel> getUser(String id) async {
-    try {
-      final response =
-          await api.get("${ApiConstnt.baserUrl}/${ApiConstnt.user}/$id");
-      return UserModel.fromJson(response);
-    } catch (e) {
-      throw Exception("Error parsing user data: ${e.toString()}");
-    }
+    final response =
+        await api.get("${ApiConstnt.baserUrl}/${ApiConstnt.user}/$id");
+    return UserModel.fromJson(response);
   }
 }

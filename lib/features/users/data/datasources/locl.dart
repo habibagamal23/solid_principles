@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../../core/cachhelper/chachhelpe.dart';
+import '../../../../core/error/expentions.dart';
 import '../models/user_model.dart';
 
 class UserLocalDataSource {
@@ -17,7 +18,7 @@ class UserLocalDataSource {
         ),
       );
     } else {
-      throw Exception( "No Internet Connection");
+      throw CacheExeption(errorMessage: "No Internet Connection");
     }
   }
 
@@ -27,7 +28,7 @@ class UserLocalDataSource {
     if (jsonString != null) {
       return Future.value(UserModel.fromJson(json.decode(jsonString)));
     } else {
-      throw Exception("No Internet Connection");
+      throw CacheExeption(errorMessage: "No Internet Connection");
     }
   }
 }
