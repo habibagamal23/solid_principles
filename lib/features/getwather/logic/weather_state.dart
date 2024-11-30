@@ -5,16 +5,14 @@ sealed class WeatherState {}
 
 final class WeatherInitial extends WeatherState {}
 
-class WeatherLoading extends WeatherState {}
+final class WeatherLoading extends WeatherState {}
 
-class WeatherLoaded extends WeatherState {
-  final WeatherModel weather;
-
-  WeatherLoaded(this.weather);
+final class WeatherSuccess extends WeatherState {
+  WeatherData weatherModel;
+  WeatherSuccess(this.weatherModel);
 }
 
-class WeatherError extends WeatherState {
-  final String message;
-
-  WeatherError(this.message);
+final class WeatherError extends WeatherState {
+  String err;
+  WeatherError(this.err);
 }

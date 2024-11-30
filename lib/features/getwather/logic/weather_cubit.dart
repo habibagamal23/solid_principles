@@ -1,22 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
-import '../data/models/weather.dart';
-import '../data/repos/weatherrepo.dart';
+import 'package:solid_p/features/getwather/data/models/weather.dart';
+import 'package:solid_p/features/getwather/data/repo/weatherreop.dart';
 
 part 'weather_state.dart';
 
 class WeatherCubit extends Cubit<WeatherState> {
-  final WeatherRepository weatherRepository;
-  WeatherCubit(this.weatherRepository) : super(WeatherInitial());
+  WeatherRepo weatherRepo;
+  WeatherCubit(this.weatherRepo) : super(WeatherInitial());
 
-  Future<void> fetchWeather(String city) async {
+  Future FeatchWeather()async{
     emit(WeatherLoading());
-    final result = await weatherRepository.getWeather(city);
-    if (result.isSuccess) {
-      emit(WeatherLoaded(result.data!));
-    } else {
-      emit(WeatherError(result.error!));
-    }
+     var result =await weatherRepo.getWeather();
+     if(result.isSuccess){
+       emit(WeatherSuccess(result.data!));
+     }else{
+       emit(WeatherError(result.error!));
+     }
+
   }
+
+
 }

@@ -1,14 +1,11 @@
-class WeatherModel {
+class WeatherData {
   final Location location;
   final CurrentWeather current;
 
-  WeatherModel({
-    required this.location,
-    required this.current,
-  });
+  WeatherData({required this.location, required this.current});
 
-  factory WeatherModel.fromJson(Map<String, dynamic> json) {
-    return WeatherModel(
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
       location: Location.fromJson(json['location']),
       current: CurrentWeather.fromJson(json['current']),
     );

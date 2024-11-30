@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solid_p/features/getwather/logic/weather_cubit.dart';
 
-import '../../logic/weather_cubit.dart';
 import '../widgets/WeatherDetails.dart';
-import '../widgets/error_widget.dart';
-import '../widgets/inital_widget.dart';
-
 
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({Key? key}) : super(key: key);
@@ -16,23 +13,22 @@ class WeatherScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Weather'),
       ),
-      body: BlocBuilder<WeatherCubit, WeatherState>(
-        builder: (context, state) {
-          if (state is WeatherLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is WeatherLoaded) {
-            return WeatherDetails(
-              temperature: state.weather.current.tempC,
-              cityName: state.weather.location.name,
-            );
-          } else if (state is WeatherError) {
-            return ErrorMessage(message: state.message);
-          }
-          return const InitialMessage();
-        },
-      ),
+      body: BlocBuilder<WeatherCubit, WeatherState>(builder: (context, state) {
+        if (state is WeatherLoading) {
+          return CircularProgressIndicator();
+        }
+        if (state is WeatherSuccess) {
+          return WeatherDetails(
+            temperature: state.weatherModel.current.tempC ?? 0.0,
+            cityName: state.weatherModel.location.name ?? "no loaction",
+          );
+        }
+        if (state is WeatherError) {
+          return Text(state.err);
+        }
+
+        return SizedBox();
+      }),
     );
   }
 }
