@@ -4,16 +4,12 @@ import 'package:get_it/get_it.dart';
 import 'package:solid_p/core/network/apiConsumer.dart';
 import 'package:solid_p/core/network/dio_service.dart';
 import 'package:solid_p/core/network/diofactory.dart';
-import 'package:solid_p/features/getwather/data/repo/weather_repo_imp.dart';
-import 'package:solid_p/features/getwather/data/repo/weatherreop.dart';
-import 'package:solid_p/features/getwather/logic/weather_cubit.dart';
-
-import '../../features/users/data/datasources/UserRemoteDataSource.dart';
-import '../../features/users/data/datasources/locl.dart';
-import '../../features/users/data/repo/repo.dart';
-import '../../features/users/domain/repositories/userrepo.dart';
-import '../../features/users/domain/usecases/getuser.dart';
-import '../../features/users/presention/cubit/user_cubit.dart';
+import 'package:solid_p/features/getuser/data/data_source/UserRemoteDataSource.dart';
+import 'package:solid_p/features/getuser/data/data_source/userLoacalDataSource.dart';
+import 'package:solid_p/features/getuser/data/repo/userRepoImplentaion.dart';
+import 'package:solid_p/features/getuser/domain/repo/UserRepostiry.dart';
+import 'package:solid_p/features/getuser/domain/usecase/getuser.dart';
+import 'package:solid_p/features/getuser/presentaion/cubit/user_cubit.dart';
 import '../cachhelper/chachhelpe.dart';
 import '../connection/NetworkInfo.dart';
 
@@ -26,41 +22,33 @@ void setGetit() {
   /// api consumer
 
   getit.registerLazySingleton<ApiConsumer>(() => DioService(dio: getit<Dio>()));
-  getit.registerLazySingleton<WeatherRepo>(
-      () => WeatherRepoImpl(getit<ApiConsumer>()));
-  getit.registerFactory<WeatherCubit>(() => WeatherCubit(getit<WeatherRepo>()));
 
-  /// cubit -> weather repo (perant) ,
-  /// weather repo imp => api consumer
-  ///
-  ///
-  /// user   1- cubit
-  // NetworkInfo setup (check internet connection)
+  /// NetworkInfo setup (check internet connection)
   getit.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(DataConnectionChecker()));
 
-  // CacheHelper setup (local cache)
+  /// CacheHelper setup (local cache)
   getit.registerLazySingleton<CacheHelper>(() => CacheHelper());
 
-  // Data sources (remote and local)
+  /// Data sources (remote and local)
   getit.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSource(api: getit<ApiConsumer>()));
-  getit.registerLazySingleton<UserLocalDataSource>(
-      () => UserLocalDataSource(cache: getit<CacheHelper>()));
+      () => UserRemoteDataSource(getit<ApiConsumer>()));
 
-  // User Repository implementation
-  getit.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(
-      remoteDataSource: getit<UserRemoteDataSource>(),
-      localDataSource: getit<UserLocalDataSource>(),
-      networkInfo: getit<NetworkInfo>(),
-    ),
+  getit.registerLazySingleton<UserLocalDataSource>(
+      () => UserLocalDataSource(cacheHelper: getit<CacheHelper>()));
+
+  /// User Repository implementation
+  getit.registerLazySingleton<UserRepositry>(
+    () => UserRepoImplemntion(
+        networkInfo: getit<NetworkInfo>(),
+        userLocalDataSource: getit<UserLocalDataSource>(),
+        userRemoteDataSource: getit<UserRemoteDataSource>()),
   );
 
-  // UseCase
+  /// UseCase
   getit.registerLazySingleton<GetUser>(
-      () => GetUser(repository: getit<UserRepository>()));
+      () => GetUser(userRepositry: getit<UserRepositry>()));
 
-  // UserCubit
-  getit.registerFactory<UserCubit>(() => UserCubit(getit<GetUser>()));
+  /// UserCubit
+  getit.registerLazySingleton<UserCubit>(() => UserCubit(getit<GetUser>()));
 }

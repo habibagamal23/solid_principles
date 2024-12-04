@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solid_p/features/getwather/logic/weather_cubit.dart';
-import 'package:solid_p/features/users/presention/cubit/user_cubit.dart';
-import 'package:solid_p/features/users/presention/screens/user_screen.dart';
-
+import 'package:solid_p/features/getuser/presentaion/cubit/user_cubit.dart';
+import 'package:solid_p/features/getuser/presentaion/screens/UserScreenClean.dart';
 import 'core/cachhelper/chachhelpe.dart';
 import 'core/di/di.dart';
 import 'features/mvcuser/view/userview.dart';
-import 'features/mvvm/view/userviewMvvm.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setGetit();
- await CacheHelper().init();
-  runApp(BlocProvider(
-    create: (context) => getit<UserCubit>()..getUserFun(1),
-    child: MyApp(),
-  ));
+  await CacheHelper().init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,12 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home:  UserView());
+    return BlocProvider(
+      create: (context) => getit<UserCubit>()..getUserFun(2),
+      child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: Userscreenclean()),
+    );
   }
 }

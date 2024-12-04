@@ -15,7 +15,6 @@ class UserViewModel extends ChangeNotifier {
 
   UserViewModel({required this.userRepository});
 
-  // دالة لجلب بيانات المستخدم
   Future<void> fetchUserData() async {
     _isLoading = true;
     notifyListeners(); // Notify listeners to update UI
